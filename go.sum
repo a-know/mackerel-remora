@@ -1,0 +1,4 @@
+github.com/go-yaml/yaml v2.1.0+incompatible h1:RYi2hDdss1u4YE7GwixGzWwVo47T8UQwnTLB6vQiq+o=
+github.com/go-yaml/yaml v2.1.0+incompatible/go.mod h1:w2MrLa16VYP0jy6N7M5kHaCkaLENm+P+Tv+MfurjSw0=
+github.com/mackerelio/golib v0.0.0-20190320144302-6316bf9505a9 h1:fspvFvUVrutzEfJ8GNLmpm+wn97dQjCNdXnqkOdmXv0=
+github.com/mackerelio/golib v0.0.0-20190320144302-6316bf9505a9/go.mod h1:QQXnbzDaHtoPLMpOFWMWyLhxJMBqKEwM5gs6rz+fBxk=
