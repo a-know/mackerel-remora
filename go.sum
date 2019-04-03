@@ -1,6 +1,12 @@
+github.com/Songmu/timeout v0.3.1 h1://DvEPmBO0bfi1lZrvam2h+lGVh+aZEPLEbumoJSIEc=
+github.com/Songmu/timeout v0.3.1/go.mod h1:HUbpfjc2MgU7tXBcfE6Ta9Sk2NtKkZlr8G34/nhVYXE=
+github.com/Songmu/wrapcommander v0.0.0-20190209161912-6edabfc62ab9 h1:xu3B8iDZtpXl0meW/UVpgDLh/Oo0tlpBz7o7UZF9fxA=
+github.com/Songmu/wrapcommander v0.0.0-20190209161912-6edabfc62ab9/go.mod h1:BcurWRA8LPJdt1oyizpcpwYRDc11reXN3WnrbAnvdHE=
 github.com/go-yaml/yaml v2.1.0+incompatible h1:RYi2hDdss1u4YE7GwixGzWwVo47T8UQwnTLB6vQiq+o=
 github.com/go-yaml/yaml v2.1.0+incompatible/go.mod h1:w2MrLa16VYP0jy6N7M5kHaCkaLENm+P+Tv+MfurjSw0=
 github.com/mackerelio/golib v0.0.0-20190320144302-6316bf9505a9 h1:fspvFvUVrutzEfJ8GNLmpm+wn97dQjCNdXnqkOdmXv0=
 github.com/mackerelio/golib v0.0.0-20190320144302-6316bf9505a9/go.mod h1:QQXnbzDaHtoPLMpOFWMWyLhxJMBqKEwM5gs6rz+fBxk=
 github.com/mackerelio/mackerel-client-go v0.2.0 h1:U7euYxKkwR/VslijZfE3+Qegx+LPwwguC75an5JBX8o=
 github.com/mackerelio/mackerel-client-go v0.2.0/go.mod h1:j4naoxKaoie5bu4gCy1qnB47jH2e+k2SRYouccXeEc8=
+github.com/mackerelio/mackerel-container-agent v0.0.2 h1:fgn9NmwEi6YdE9lJ/hm5E6PxyorUbihaxPC3J5Bm0Ak=
+github.com/mackerelio/mackerel-container-agent v0.0.2/go.mod h1:KZ10QgEQt7TMHfeKBoQA+ohBziE1U51zjzW+XY5sL8A=

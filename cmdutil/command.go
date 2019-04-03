@@ -40,17 +40,17 @@ type Command struct {
 // 	}
 // }
 
-// // ToArgs returns the command arguments.
-// func (c Command) ToArgs() []string {
-// 	switch cmd := c.command.(type) {
-// 	case string:
-// 		return []string{"/bin/sh", "-c", cmd}
-// 	case []string:
-// 		return cmd
-// 	default:
-// 		panic("unexpected command type")
-// 	}
-// }
+// ToArgs returns the command arguments.
+func (c Command) ToArgs() []string {
+	switch cmd := c.command.(type) {
+	case string:
+		return []string{"/bin/sh", "-c", cmd}
+	case []string:
+		return cmd
+	default:
+		panic("unexpected command type")
+	}
+}
 
 // IsEmpty returns the command is empty.
 func (c Command) IsEmpty() bool {

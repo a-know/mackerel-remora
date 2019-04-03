@@ -10,6 +10,7 @@ import (
 	mackerel "github.com/mackerelio/mackerel-client-go"
 
 	"github.com/a-know/mackerel-remora/config"
+	"github.com/a-know/mackerel-remora/metric"
 	"github.com/a-know/mackerel-remora/spec"
 	"github.com/mackerelio/golib/logging"
 )
@@ -63,27 +64,11 @@ func (a *agent) start(ctx context.Context) error {
 	}
 	client.UserAgent = spec.BuildUserAgent(a.version, a.revision)
 
-	// pform, err := NewPlatform(ctx, conf.IgnoreContainer.Regexp)
-	// if err != nil {
-	// 	return err
-	// }
-
-	// customIdentifier, err := pform.GetCustomIdentifier(ctx)
-	// if err != nil {
-	// 	logger.Warningf("failed to get custom identifier: %s", err)
-	// }
-
-	// metricGenerators := pform.GetMetricGenerators()
-	// for _, mp := range conf.MetricPlugins {
-	// 	metricGenerators = append(metricGenerators, metric.NewPluginGenerator(mp))
-	// }
-	// metricManager := metric.NewManager(metricGenerators, client)
-
-	// var checkGenerators []check.Generator
-	// for _, cp := range conf.CheckPlugins {
-	// 	checkGenerators = append(checkGenerators, check.NewPluginGenerator(cp))
-	// }
-	// checkManager := check.NewManager(checkGenerators, client)
+	var metricGenerators []metric.Generator
+	for _, mp := range conf.ServiceMetricPlugins {
+		metricGenerators = append(metricGenerators, metric.NewPluginGenerator(mp))
+	}
+	metricManager := metric.NewManager(metricGenerators, client)
 
 	// specGenerators := pform.GetSpecGenerators()
 	// specManager := spec.NewManager(specGenerators, client).
