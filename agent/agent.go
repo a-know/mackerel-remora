@@ -2,11 +2,15 @@ package agent
 
 import (
 	"context"
+	"net/url"
 	"os"
 	"os/signal"
 	"syscall"
 
+	mackerel "github.com/mackerelio/mackerel-client-go"
+
 	"github.com/a-know/mackerel-remora/config"
+	"github.com/a-know/mackerel-remora/spec"
 	"github.com/mackerelio/golib/logging"
 )
 
@@ -49,18 +53,15 @@ func (a *agent) start(ctx context.Context) error {
 		return err
 	}
 
-	// client := mackerel.NewClient(conf.Apikey)
-	// if conf.Apibase != "" {
-	// 	baseURL, err := url.Parse(conf.Apibase)
-	// 	if err != nil {
-	// 		return err
-	// 	}
-	// 	client.BaseURL = baseURL
-	// }
-	// client.UserAgent = spec.BuildUserAgent(a.version, a.revision)
-	// if conf.ReadinessProbe != nil && conf.ReadinessProbe.HTTP != nil {
-	// 	conf.ReadinessProbe.HTTP.UserAgent = client.UserAgent
-	// }
+	client := mackerel.NewClient(conf.Apikey)
+	if conf.Apibase != "" {
+		baseURL, err := url.Parse(conf.Apibase)
+		if err != nil {
+			return err
+		}
+		client.BaseURL = baseURL
+	}
+	client.UserAgent = spec.BuildUserAgent(a.version, a.revision)
 
 	// pform, err := NewPlatform(ctx, conf.IgnoreContainer.Regexp)
 	// if err != nil {

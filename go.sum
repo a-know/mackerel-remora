@@ -2,3 +2,5 @@ github.com/go-yaml/yaml v2.1.0+incompatible h1:RYi2hDdss1u4YE7GwixGzWwVo47T8UQwn
 github.com/go-yaml/yaml v2.1.0+incompatible/go.mod h1:w2MrLa16VYP0jy6N7M5kHaCkaLENm+P+Tv+MfurjSw0=
 github.com/mackerelio/golib v0.0.0-20190320144302-6316bf9505a9 h1:fspvFvUVrutzEfJ8GNLmpm+wn97dQjCNdXnqkOdmXv0=
 github.com/mackerelio/golib v0.0.0-20190320144302-6316bf9505a9/go.mod h1:QQXnbzDaHtoPLMpOFWMWyLhxJMBqKEwM5gs6rz+fBxk=
+github.com/mackerelio/mackerel-client-go v0.2.0 h1:U7euYxKkwR/VslijZfE3+Qegx+LPwwguC75an5JBX8o=
+github.com/mackerelio/mackerel-client-go v0.2.0/go.mod h1:j4naoxKaoie5bu4gCy1qnB47jH2e+k2SRYouccXeEc8=
