@@ -54,6 +54,16 @@ type Config struct {
 // 	return nil
 // }
 
+// yaml format
+// plugin:
+//   metrics:
+//     sample:
+//       command: ruby /usr/local/bin/sample-plugin.rb
+//       user: "sample-user"
+//       env:
+//         FOO: "FOO BAR"
+//         QUX: 'QUX QUUX'
+
 func parseConfig(data []byte) (*Config, error) {
 	var conf struct {
 		Config `yaml:",inline"`
@@ -69,6 +79,7 @@ func parseConfig(data []byte) (*Config, error) {
 	if err != nil {
 		return nil, err
 	}
+	// for name, plugin := range conf.Plugin["metrics"] {
 	for name, plugin := range conf.Plugin["service-metrics"] {
 		if plugin.Command.IsEmpty() {
 			return nil, errors.New("specify command of service-metric plugin")

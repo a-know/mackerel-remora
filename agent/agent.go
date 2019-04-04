@@ -70,15 +70,9 @@ func (a *agent) start(ctx context.Context) error {
 	}
 	metricManager := metric.NewManager(metricGenerators, client)
 
-	// specGenerators := pform.GetSpecGenerators()
-	// specManager := spec.NewManager(specGenerators, client).
-	// 	WithVersion(a.version, a.revision).
-	// 	WithCustomIdentifier(customIdentifier)
+	sigCh := make(chan os.Signal, 1)
+	signal.Notify(sigCh, os.Interrupt, syscall.SIGTERM, syscall.SIGQUIT)
+	defer signal.Stop(sigCh)
 
-	// sigCh := make(chan os.Signal, 1)
-	// signal.Notify(sigCh, os.Interrupt, syscall.SIGTERM, syscall.SIGQUIT)
-	// defer signal.Stop(sigCh)
-
-	// return run(ctx, client, metricManager, checkManager, specManager, pform, conf, sigCh)
-	return nil
+	return run(ctx, client, metricManager, conf, sigCh)
 }

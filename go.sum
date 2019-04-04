@@ -10,3 +10,5 @@ github.com/mackerelio/mackerel-client-go v0.2.0 h1:U7euYxKkwR/VslijZfE3+Qegx+LPw
 github.com/mackerelio/mackerel-client-go v0.2.0/go.mod h1:j4naoxKaoie5bu4gCy1qnB47jH2e+k2SRYouccXeEc8=
 github.com/mackerelio/mackerel-container-agent v0.0.2 h1:fgn9NmwEi6YdE9lJ/hm5E6PxyorUbihaxPC3J5Bm0Ak=
 github.com/mackerelio/mackerel-container-agent v0.0.2/go.mod h1:KZ10QgEQt7TMHfeKBoQA+ohBziE1U51zjzW+XY5sL8A=
+golang.org/x/sync v0.0.0-20190227155943-e225da77a7e6 h1:bjcUS9ztw9kFmmIxJInhon/0Is3p+EHBKNgquIzo1OI=
+golang.org/x/sync v0.0.0-20190227155943-e225da77a7e6/go.mod h1:RxMgew5VJxzue5/jJTE5uejpjVlOe/izrB70Jof72aM=

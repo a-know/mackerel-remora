@@ -7,4 +7,5 @@ require (
 	github.com/mackerelio/golib v0.0.0-20190320144302-6316bf9505a9
 	github.com/mackerelio/mackerel-client-go v0.2.0
 	github.com/mackerelio/mackerel-container-agent v0.0.2
+	golang.org/x/sync v0.0.0-20190227155943-e225da77a7e6
 )
