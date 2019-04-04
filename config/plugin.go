@@ -3,7 +3,7 @@ package config
 import (
 	"time"
 
-	"github.com/a-know/mackerel-remora/cmdutil"
+	"github.com/mackerelio/mackerel-container-agent/cmdutil"
 )
 
 // ServiceMetricPlugin represents service-metric plugin

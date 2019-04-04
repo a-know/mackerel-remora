@@ -9,8 +9,7 @@ import (
 	"time"
 
 	"github.com/go-yaml/yaml"
-
-	"github.com/a-know/mackerel-remora/cmdutil"
+	"github.com/mackerelio/mackerel-container-agent/cmdutil"
 )
 
 const (

@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/a-know/mackerel-remora/cmdutil"
 	"github.com/a-know/mackerel-remora/config"
+	"github.com/mackerelio/mackerel-container-agent/cmdutil"
 )
 
 const (
