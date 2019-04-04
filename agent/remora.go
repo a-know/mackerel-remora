@@ -1,4 +1,4 @@
-package agent
+package remora
 
 import (
 	"context"
@@ -15,30 +15,30 @@ import (
 	"github.com/mackerelio/golib/logging"
 )
 
-var logger = logging.GetLogger("agent")
+var logger = logging.GetLogger("remora")
 
-// Agent interface
-type Agent interface {
+// Remora interface
+type Remora interface {
 	Run([]string) error
 }
 
-// NewAgent creates a new Mackerel agent
-func NewAgent(version, revision string) Agent {
-	return &agent{version, revision}
+// NewRemora creates a new Mackerel remora agent
+func NewRemora(version, revision string) Remora {
+	return &remora{version, revision}
 }
 
-type agent struct {
+type remora struct {
 	version, revision string
 }
 
-func (a *agent) Run(_ []string) error {
+func (r *remora) Run(_ []string) error {
 	sigCh := make(chan os.Signal, 1)
 	signal.Notify(sigCh, syscall.SIGHUP)
 	for {
 		errCh := make(chan error)
 		ctx, cancel := context.WithCancel(context.Background())
 		defer cancel()
-		go func() { errCh <- a.start(ctx) }()
+		go func() { errCh <- r.start(ctx) }()
 		select {
 		case <-sigCh:
 			cancel()
@@ -48,8 +48,8 @@ func (a *agent) Run(_ []string) error {
 	}
 }
 
-func (a *agent) start(ctx context.Context) error {
-	conf, err := config.Load(os.Getenv("MACKEREL_AGENT_CONFIG"))
+func (r *remora) start(ctx context.Context) error {
+	conf, err := config.Load(os.Getenv("MACKEREL_REMORA_CONFIG"))
 	if err != nil {
 		return err
 	}
@@ -62,7 +62,7 @@ func (a *agent) start(ctx context.Context) error {
 		}
 		client.BaseURL = baseURL
 	}
-	client.UserAgent = spec.BuildUserAgent(a.version, a.revision)
+	client.UserAgent = spec.BuildUserAgent(r.version, r.revision)
 
 	var metricGenerators []metric.Generator
 	for _, mp := range conf.ServiceMetricPlugins {
