@@ -10,6 +10,7 @@ import (
 
 	"github.com/go-yaml/yaml"
 	"github.com/mackerelio/mackerel-container-agent/cmdutil"
+	cconfig "github.com/mackerelio/mackerel-container-agent/config"
 )
 
 const (
@@ -70,7 +71,7 @@ func parseConfig(data []byte) (*Config, error) {
 			Command        cmdutil.Command `yaml:"command"`
 			User           string          `yaml:"user"`
 			TimeoutSeconds int             `yaml:"timeoutSeconds"`
-			Env            Env             `yaml:"env"`
+			Env            cconfig.Env     `yaml:"env"`
 			Memo           string          `yaml:"memo"`
 		} `yaml:"plugin"`
 	}

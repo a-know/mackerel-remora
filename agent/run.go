@@ -7,9 +7,9 @@ import (
 
 	"golang.org/x/sync/errgroup"
 
-	"github.com/mackerelio/mackerel-container-agent/api"
-	"github.com/mackerelio/mackerel-container-agent/config"
-	"github.com/mackerelio/mackerel-container-agent/metric"
+	"github.com/a-know/mackerel-remora/api"
+	"github.com/a-know/mackerel-remora/config"
+	"github.com/a-know/mackerel-remora/metric"
 )
 
 var (
