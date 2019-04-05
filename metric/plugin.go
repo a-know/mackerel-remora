@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/a-know/mackerel-remora/config"
 	"github.com/mackerelio/mackerel-container-agent/cmdutil"
+	cconfig "github.com/mackerelio/mackerel-container-agent/config"
 )
 
 const (
@@ -17,11 +17,11 @@ const (
 )
 
 type pluginGenerator struct {
-	config.ServiceMetricPlugin
+	cconfig.MetricPlugin
 }
 
 // NewPluginGenerator creates a new plugin generator
-func NewPluginGenerator(p *config.ServiceMetricPlugin) Generator {
+func NewPluginGenerator(p *cconfig.MetricPlugin) Generator {
 	return &pluginGenerator{*p}
 }
 

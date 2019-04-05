@@ -1,18 +1,26 @@
 package api
 
 import (
+	"net/url"
+
+	"github.com/a-know/mackerel-remora/config"
 	mackerel "github.com/mackerelio/mackerel-client-go"
 )
 
 // Client represents a client of Mackerel API
 type Client interface {
-	// FindHost(id string) (*mackerel.Host, error)
-	// FindHosts(param *mackerel.FindHostsParam) ([]*mackerel.Host, error)
-	// CreateHost(param *mackerel.CreateHostParam) (string, error)
-	// UpdateHost(hostID string, param *mackerel.UpdateHostParam) (string, error)
-	// UpdateHostStatus(hostID string, status string) error
-	// RetireHost(id string) error
 	PostServiceMetricValues(serviceName string, metricValues []*mackerel.MetricValue) error
-	// CreateGraphDefs([]*mackerel.GraphDefsParam) error
-	// PostCheckReports(reports *mackerel.CheckReports) error
+}
+
+// NewClient initialize and return Mackerel API Client
+func NewClient(conf *config.Config) (*mackerel.Client, error) {
+	client := mackerel.NewClient(conf.Apikey)
+	if conf.Apibase != "" {
+		baseURL, err := url.Parse(conf.Apibase)
+		if err != nil {
+			return nil, err
+		}
+		client.BaseURL = baseURL
+	}
+	return client, nil
 }

@@ -2,9 +2,6 @@ package config
 
 import (
 	"errors"
-	"io/ioutil"
-	"net/http"
-	"net/url"
 	"os"
 	"time"
 
@@ -23,38 +20,14 @@ type Config struct {
 	Apibase              string `yaml:"apibase"`
 	Apikey               string `yaml:"apikey"`
 	Root                 string `yaml:"root"`
-	ServiceMetricPlugins []*ServiceMetricPlugin
+	ServiceMetricPlugins []*cconfig.MetricPlugin
 }
 
-// // Regexpwrapper wraps regexp.Regexp
-// type Regexpwrapper struct {
-// 	*regexp.Regexp
-// }
-
-// // UnmarshalText decodes regexp string
-// func (r *Regexpwrapper) UnmarshalText(text []byte) error {
-// 	var err error
-// 	r.Regexp, err = regexp.Compile(string(text))
-// 	return err
-// }
-
-// // HostStatus represents host status
-// type HostStatus string
-
-// // UnmarshalText decodes host status string
-// func (s *HostStatus) UnmarshalText(text []byte) error {
-// 	status := string(text)
-// 	if status != mackerel.HostStatusWorking &&
-// 		status != mackerel.HostStatusStandby &&
-// 		status != mackerel.HostStatusMaintenance &&
-// 		status != mackerel.HostStatusPoweroff {
-// 		return fmt.Errorf("invalid host status: %q", status)
-// 	}
-// 	*s = HostStatus(status)
-// 	return nil
-// }
-
-// yaml format
+// yaml format example
+//
+// apibase: www.example.com
+// apikey: qwertyuiop
+// root: /var/tmp/mackerel-remora
 // plugin:
 //   metrics:
 //     sample:
@@ -84,7 +57,7 @@ func parseConfig(data []byte) (*Config, error) {
 		if plugin.Command.IsEmpty() {
 			return nil, errors.New("specify command of service-metric plugin")
 		}
-		conf.Config.ServiceMetricPlugins = append(conf.Config.ServiceMetricPlugins, &ServiceMetricPlugin{
+		conf.Config.ServiceMetricPlugins = append(conf.Config.ServiceMetricPlugins, &cconfig.MetricPlugin{
 			Name: name, Command: plugin.Command, User: plugin.User, Env: plugin.Env,
 			Timeout: time.Duration(plugin.TimeoutSeconds) * time.Second,
 		})
@@ -97,7 +70,7 @@ func Load(location string) (*Config, error) {
 	var conf *Config
 
 	if location == "" {
-		conf = defaultConfig()
+		conf = &Config{}
 	} else {
 		data, err := fetch(location)
 		if err != nil {
@@ -123,34 +96,4 @@ func Load(location string) (*Config, error) {
 	}
 
 	return conf, nil
-}
-
-func fetch(location string) ([]byte, error) {
-	u, err := url.Parse(location)
-	if err != nil {
-		return fetchFile(location)
-	}
-
-	switch u.Scheme {
-	case "http", "https":
-		return fetchHTTP(u)
-	default:
-		return fetchFile(u.Path)
-	}
-}
-
-func fetchFile(path string) ([]byte, error) {
-	return ioutil.ReadFile(path)
-}
-
-func fetchHTTP(u *url.URL) ([]byte, error) {
-	cl := http.Client{
-		Timeout: timeout,
-	}
-	resp, err := cl.Get(u.String())
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-	return ioutil.ReadAll(resp.Body)
 }

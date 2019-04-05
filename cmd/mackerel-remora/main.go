@@ -5,7 +5,7 @@ import (
 
 	"github.com/mackerelio/golib/logging"
 
-	"github.com/a-know/mackerel-remora/agent"
+	"github.com/a-know/mackerel-remora/remora"
 )
 
 const cmdName = "mackerel-remora"
@@ -20,7 +20,7 @@ func main() {
 
 func run(args []string) int {
 	logger.Infof("starting %s (version:%s, revision:%s)", cmdName, version, revision)
-	if err := agent.NewAgent(version, revision).Run(args); err != nil {
+	if err := remora.NewRemora(version, revision).Run(args); err != nil {
 		logger.Errorf("%s", err)
 		return 1
 	}

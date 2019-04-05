@@ -48,16 +48,3 @@ func (s *sender) post(metricValues []*mackerel.MetricValue) error {
 	}
 	return nil
 }
-
-// func (s *sender) setHostID(hostID string) {
-// 	s.mu.Lock()
-// 	defer s.mu.Unlock()
-// 	s.hostID = hostID
-// }
-
-// func (s *sender) postGraphDefs(graphDefs []*mackerel.GraphDefsParam) error {
-// 	if len(graphDefs) == 0 {
-// 		return nil
-// 	}
-// 	return s.client.CreateGraphDefs(graphDefs)
-// }

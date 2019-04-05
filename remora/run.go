@@ -13,12 +13,7 @@ import (
 )
 
 var (
-	metricsInterval            = time.Minute
-	checkInterval              = time.Minute
-	specInterval               = time.Hour
-	specInitialInterval        = 5 * time.Minute
-	waitStatusRunningInterval  = 3 * time.Second
-	hostIDInitialRetryInterval = 1 * time.Second
+	metricsInterval = time.Minute
 )
 
 func run(

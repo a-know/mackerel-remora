@@ -2,13 +2,11 @@ package remora
 
 import (
 	"context"
-	"net/url"
 	"os"
 	"os/signal"
 	"syscall"
 
-	mackerel "github.com/mackerelio/mackerel-client-go"
-
+	"github.com/a-know/mackerel-remora/api"
 	"github.com/a-know/mackerel-remora/config"
 	"github.com/a-know/mackerel-remora/metric"
 	"github.com/a-know/mackerel-remora/spec"
@@ -54,13 +52,9 @@ func (r *remora) start(ctx context.Context) error {
 		return err
 	}
 
-	client := mackerel.NewClient(conf.Apikey)
-	if conf.Apibase != "" {
-		baseURL, err := url.Parse(conf.Apibase)
-		if err != nil {
-			return err
-		}
-		client.BaseURL = baseURL
+	client, err := api.NewClient(conf)
+	if err != nil {
+		return err
 	}
 	client.UserAgent = spec.BuildUserAgent(r.version, r.revision)
 

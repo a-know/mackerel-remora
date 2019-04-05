@@ -66,12 +66,3 @@ func (m *Manager) collectAndPostValues(ctx context.Context) error {
 	}
 	return m.sender.post(metricValues)
 }
-
-// // CollectAndPostGraphDefs sends graph definitions
-// func (m *Manager) CollectAndPostGraphDefs(ctx context.Context) error {
-// 	graphDefs, err := m.collector.collectGraphDefs(ctx)
-// 	if err != nil {
-// 		return err
-// 	}
-// 	return m.sender.postGraphDefs(graphDefs)
-// }
