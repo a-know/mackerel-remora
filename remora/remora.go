@@ -58,9 +58,11 @@ func (r *remora) start(ctx context.Context) error {
 	}
 	client.UserAgent = spec.BuildUserAgent(r.version, r.revision)
 
-	var metricGenerators []metric.Generator
-	for _, mp := range conf.ServiceMetricPlugins {
-		metricGenerators = append(metricGenerators, metric.NewPluginGenerator(mp))
+	var metricGenerators map[string][]metric.Generator
+	for serviceName, plugins := range conf.ServiceMetricPlugins {
+		for _, mp := range plugins {
+			metricGenerators[serviceName] = append(metricGenerators[serviceName], metric.NewPluginGenerator(mp))
+		}
 	}
 	metricManager := metric.NewManager(metricGenerators, client)
 

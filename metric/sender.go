@@ -19,13 +19,11 @@ func newSender(client api.Client) *sender {
 	return &sender{client: client}
 }
 
-func (s *sender) post(metricValues []*mackerel.MetricValue) error {
+func (s *sender) post(serviceName string, metricValues []*mackerel.MetricValue) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	s.pendingMetrics = append(s.pendingMetrics, metricValues)
-	if s.serviceName == "" {
-		return nil
-	}
+
 	var postMetricValues []*mackerel.MetricValue
 	var postIndex int
 	for i, ms := range s.pendingMetrics {
@@ -35,7 +33,7 @@ func (s *sender) post(metricValues []*mackerel.MetricValue) error {
 			break
 		}
 	}
-	err := s.client.PostServiceMetricValues(s.serviceName, postMetricValues)
+	err := s.client.PostServiceMetricValues(serviceName, postMetricValues)
 	if err == nil {
 		n := copy(s.pendingMetrics, s.pendingMetrics[postIndex+1:])
 		s.pendingMetrics = s.pendingMetrics[:n]

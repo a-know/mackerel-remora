@@ -20,7 +20,7 @@ type Config struct {
 	Apibase              string `yaml:"apibase"`
 	Apikey               string `yaml:"apikey"`
 	Root                 string `yaml:"root"`
-	ServiceMetricPlugins []*cconfig.MetricPlugin
+	ServiceMetricPlugins map[string][]*cconfig.MetricPlugin
 }
 
 // yaml format example
@@ -29,18 +29,19 @@ type Config struct {
 // apikey: qwertyuiop
 // root: /var/tmp/mackerel-remora
 // plugin:
-//   metrics:
-//     sample:
-//       command: ruby /usr/local/bin/sample-plugin.rb
-//       user: "sample-user"
-//       env:
-//         FOO: "FOO BAR"
-//         QUX: 'QUX QUUX'
+//   servicemetrics:
+//     <servicename>:
+//       sample:
+//         command: ruby /usr/local/bin/sample-plugin.rb
+//         user: "sample-user"
+//         env:
+//           FOO: "FOO BAR"
+//           QUX: 'QUX QUUX'
 
 func parseConfig(data []byte) (*Config, error) {
 	var conf struct {
 		Config `yaml:",inline"`
-		Plugin map[string]map[string]struct {
+		Plugin map[string]map[string]map[string]struct {
 			Command        cmdutil.Command `yaml:"command"`
 			User           string          `yaml:"user"`
 			TimeoutSeconds int             `yaml:"timeoutSeconds"`
@@ -52,15 +53,21 @@ func parseConfig(data []byte) (*Config, error) {
 	if err != nil {
 		return nil, err
 	}
-	// for name, plugin := range conf.Plugin["metrics"] {
-	for name, plugin := range conf.Plugin["service-metrics"] {
-		if plugin.Command.IsEmpty() {
-			return nil, errors.New("specify command of service-metric plugin")
+	for serviceName, plugins := range conf.Plugin["servicemetrics"] {
+		for settingName, plugin := range plugins {
+			if plugin.Command.IsEmpty() {
+				return nil, errors.New("specify command of service-metric plugin")
+			}
+			conf.Config.ServiceMetricPlugins[serviceName] = append(
+				conf.Config.ServiceMetricPlugins[serviceName],
+				&cconfig.MetricPlugin{
+					Name:    settingName,
+					Command: plugin.Command,
+					User:    plugin.User,
+					Env:     plugin.Env,
+					Timeout: time.Duration(plugin.TimeoutSeconds) * time.Second,
+				})
 		}
-		conf.Config.ServiceMetricPlugins = append(conf.Config.ServiceMetricPlugins, &cconfig.MetricPlugin{
-			Name: name, Command: plugin.Command, User: plugin.User, Env: plugin.Env,
-			Timeout: time.Duration(plugin.TimeoutSeconds) * time.Second,
-		})
 	}
 	return &conf.Config, nil
 }

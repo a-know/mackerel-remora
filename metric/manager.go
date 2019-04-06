@@ -13,20 +13,22 @@ var logger = logging.GetLogger("metric")
 
 // Manager in metric manager
 type Manager struct {
-	collector *collector
-	sender    *sender
+	collector  *collector
+	sender     *sender
+	generators *map[string][]Generator
 }
 
 // NewManager creates metric manager instanace
-func NewManager(generators []Generator, client api.Client) *Manager {
+func NewManager(generators map[string][]Generator, client api.Client) *Manager {
 	return &Manager{
-		collector: newCollector(generators),
-		sender:    newSender(client),
+		collector:  newCollector(generators["ser"]),
+		generators: &generators,
+		sender:     newSender(client),
 	}
 }
 
 // Run collect and send metrics
-func (m *Manager) Run(ctx context.Context, interval time.Duration) (err error) {
+func (m *Manager) Run(ctx context.Context, serviceName string, interval time.Duration) (err error) {
 	t := time.NewTicker(interval)
 	errCh := make(chan error)
 loop:
@@ -36,7 +38,7 @@ loop:
 			break loop
 		case <-t.C:
 			go func() {
-				if err := m.collectAndPostValues(ctx); err != nil {
+				if err := m.collectAndPostValues(ctx, serviceName); err != nil {
 					errCh <- err
 				}
 			}()
@@ -47,8 +49,10 @@ loop:
 	return
 }
 
-func (m *Manager) collectAndPostValues(ctx context.Context) error {
+func (m *Manager) collectAndPostValues(ctx context.Context, serviceName string) error {
 	now := time.Now()
+	generators := *m.generators
+	m.collector = newCollector(generators[serviceName])
 	values, err := m.collector.collect(ctx)
 	if err != nil {
 		return err
@@ -64,5 +68,5 @@ func (m *Manager) collectAndPostValues(ctx context.Context) error {
 			Value: value,
 		})
 	}
-	return m.sender.post(metricValues)
+	return m.sender.post(serviceName, metricValues)
 }
