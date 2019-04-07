@@ -1,0 +1,6 @@
+remora:
+  image: aknow/mackerel-remora:latest
+  volumes:
+      - .:/app
+  environment:
+    MACKEREL_REMORA_CONFIG: /app/_example/sample.yml

@@ -1,0 +1,6 @@
+apikey: xxxxx
+plugin:
+  servicemetrics:
+    demo:
+      sample:
+        command: sh /app/_example/demo.sh
