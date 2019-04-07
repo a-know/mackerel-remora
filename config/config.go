@@ -53,6 +53,9 @@ func parseConfig(data []byte) (*Config, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	conf.Config.ServiceMetricPlugins = map[string][]*cconfig.MetricPlugin{}
+
 	for serviceName, plugins := range conf.Plugin["servicemetrics"] {
 		for settingName, plugin := range plugins {
 			if plugin.Command.IsEmpty() {

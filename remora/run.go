@@ -38,11 +38,9 @@ func run(
 		return nil
 	})
 
-	for serviceName := range conf.ServiceMetricPlugins {
-		eg.Go(func() error {
-			return metricManager.Run(ctx, serviceName, metricsInterval)
-		})
-	}
+	eg.Go(func() error {
+		return metricManager.Run(ctx, metricsInterval)
+	})
 
 	err := eg.Wait()
 

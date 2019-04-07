@@ -28,7 +28,7 @@ func NewManager(generators map[string][]Generator, client api.Client) *Manager {
 }
 
 // Run collect and send metrics
-func (m *Manager) Run(ctx context.Context, serviceName string, interval time.Duration) (err error) {
+func (m *Manager) Run(ctx context.Context, interval time.Duration) (err error) {
 	t := time.NewTicker(interval)
 	errCh := make(chan error)
 loop:
@@ -37,9 +37,12 @@ loop:
 		case <-ctx.Done():
 			break loop
 		case <-t.C:
+			generators := *m.generators
 			go func() {
-				if err := m.collectAndPostValues(ctx, serviceName); err != nil {
-					errCh <- err
+				for serviceName := range generators {
+					if err := m.collectAndPostValues(ctx, serviceName); err != nil {
+						errCh <- err
+					}
 				}
 			}()
 		case err = <-errCh:
